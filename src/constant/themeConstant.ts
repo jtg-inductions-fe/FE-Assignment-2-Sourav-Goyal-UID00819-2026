@@ -6,6 +6,9 @@ export const COLORS = {
     PRIMARY: {
         MAIN: '#0E9F6E',
     },
+    BACKGROUND: {
+        DEFAULT: '#f8fafc',
+    },
 };
 
 /**
