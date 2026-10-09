@@ -2,15 +2,15 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import {
     AppBar,
-    Box,
     Link as MuiLink,
+    Stack,
     Toolbar,
     Typography,
 } from '@mui/material';
 
-const navLinks = [{ title: 'Search', url: '/search' }];
+import { navLinks } from './navbar.constants';
 
-const Navbar = () => (
+export const Navbar = () => (
     <AppBar position="static" sx={{ px: 4 }}>
         <Toolbar
             sx={{
@@ -28,7 +28,7 @@ const Navbar = () => (
             >
                 Github Services
             </Typography>
-            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <Stack direction="row" gap={5}>
                 {navLinks.map((link) => (
                     <MuiLink
                         key={link.title}
@@ -40,9 +40,7 @@ const Navbar = () => (
                         {link.title}
                     </MuiLink>
                 ))}
-            </Box>
+            </Stack>
         </Toolbar>
     </AppBar>
 );
-
-export default Navbar;

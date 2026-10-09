@@ -1,14 +1,16 @@
 import { Outlet } from 'react-router-dom';
 
-import Navbar from './navbar';
+import { Box } from '@mui/material';
+
+import { Navbar } from '@/components/navbar/navbar';
 
 const Layout = () => (
-    <div>
+    <Box>
         <Navbar />
-        <main>
+        <Box component={'main'}>
             <Outlet />
-        </main>
-    </div>
+        </Box>
+    </Box>
 );
 
 export default Layout;
