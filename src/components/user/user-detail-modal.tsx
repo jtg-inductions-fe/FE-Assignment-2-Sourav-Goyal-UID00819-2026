@@ -139,7 +139,14 @@ export const UserDetailModal = ({
                             )}
                             {user.blog && (
                                 <Typography variant="body2">
-                                    <Link href={user.blog} target="_blank">
+                                    <Link
+                                        href={
+                                            user.blog.startsWith('http')
+                                                ? user.blog
+                                                : `https://${user.blog}`
+                                        }
+                                        target="_blank"
+                                    >
                                         {user.blog}
                                     </Link>
                                 </Typography>
