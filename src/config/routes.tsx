@@ -2,6 +2,8 @@ import type { RouteObject } from 'react-router-dom';
 
 import Layout from '@/components/layout';
 import Home from '@/pages/home';
+import Login from '@/pages/login';
+import Profile from '@/pages/profile';
 import Search from '@/pages/search';
 
 export const routes: RouteObject[] = [
@@ -16,6 +18,14 @@ export const routes: RouteObject[] = [
             {
                 path: '/search',
                 element: <Search />,
+            },
+            {
+                path: '/login',
+                element: <Login />,
+            },
+            {
+                path: '/profile',
+                element: <Profile />,
             },
         ],
     },

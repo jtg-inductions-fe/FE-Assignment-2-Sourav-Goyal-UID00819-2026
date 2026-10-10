@@ -28,6 +28,9 @@ const githubService = api.injectEndpoints({
             query: ({ username, page, perPage }) =>
                 `/users/${username}/following?page=${page}&per_page=${perPage}`,
         }),
+        getAuthenticatedUser: builder.query<UserDetail, void>({
+            query: () => '/user',
+        }),
     }),
 });
 
@@ -36,4 +39,5 @@ export const {
     useSearchUsersQuery,
     useGetUserFollowersQuery,
     useGetUserFollowingQuery,
+    useLazyGetAuthenticatedUserQuery,
 } = githubService;
