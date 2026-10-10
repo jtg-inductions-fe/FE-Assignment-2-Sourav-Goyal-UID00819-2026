@@ -1,17 +1,17 @@
 import { SearchUsers } from '@/components/search/search-users';
 import { render, screen } from '@testing-library/react';
 
-vi.mock('./search-input', () => ({
+vi.mock('@/components/search/search-input', () => ({
     SearchInput: ({ query }: { query: string }) => (
         <div data-testid="search-input">Input: {query}</div>
     ),
 }));
 
-vi.mock('./search-user-grid-skeleton', () => ({
+vi.mock('@/components/search/search-user-grid-skeleton', () => ({
     SearchUserGridSkeleton: () => <div data-testid="skeleton">Loading...</div>,
 }));
 
-vi.mock('./search-user-grid', () => ({
+vi.mock('@/components/search/search-user-grid', () => ({
     SearchUserGrid: ({ users }: { users: unknown[] }) => (
         <div data-testid="user-grid">Grid with {users.length} users</div>
     ),
@@ -38,8 +38,7 @@ vi.mock('react-router-dom', () => ({
 
 const mockUseSearchUsersQuery = vi.fn();
 vi.mock('@/services/github', () => ({
-    useSearchUsersQuery: (arg1: unknown, arg2: unknown): unknown =>
-        mockUseSearchUsersQuery(arg1, arg2),
+    useSearchUsersQuery: (): unknown => mockUseSearchUsersQuery(),
 }));
 
 describe('SearchUsers', () => {
