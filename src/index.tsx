@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
 import App from '@/app';
+import AuthMiddleware from '@/components/common/auth-middleware';
 import { store } from '@/store/store';
 import { theme } from '@theme';
 
@@ -16,7 +17,9 @@ createRoot(rootElement).render(
         <Provider store={store}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <App />
+                <AuthMiddleware>
+                    <App />
+                </AuthMiddleware>
             </ThemeProvider>
         </Provider>
     </StrictMode>,

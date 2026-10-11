@@ -44,6 +44,7 @@ function Login() {
                     severity: 'success',
                 });
                 setToastOpen(true);
+                localStorage.setItem('token', data.pat);
                 await navigate('/profile');
             } else {
                 setToast({
