@@ -1,12 +1,12 @@
 import type { RouteObject } from 'react-router-dom';
 
-import PrivateRoute from '@/components/common/private-route';
-import PublicRoute from '@/components/common/public-route';
-import Layout from '@/components/layout';
-import Home from '@/pages/home';
-import Login from '@/pages/login';
-import Profile from '@/pages/profile';
-import Search from '@/pages/search';
+import PrivateRoute from '@/components/common/PrivateRoute';
+import PublicRoute from '@/components/common/PublicRoute';
+import Layout from '@/components/Layout';
+import Home from '@/pages/Home';
+import Login from '@/pages/Login';
+import Profile from '@/pages/Profile';
+import Search from '@/pages/Search';
 
 export const routes: RouteObject[] = [
     {

@@ -18,7 +18,7 @@ import {
     useGetUserQuery,
 } from '@/services/github';
 
-import { UserConnectionList } from './user-connection-list';
+import { UserConnectionList } from './UserConnectionList';
 
 const CONNECTIONS_PER_PAGE = 10;
 

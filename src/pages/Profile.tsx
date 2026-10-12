@@ -1,8 +1,8 @@
 import { Box, Container, Divider, Paper, Typography } from '@mui/material';
 
-import { ProfileHeader } from '@/components/profile/profile-header';
-import { ProfileInfo } from '@/components/profile/profile-info';
-import { UserConnectionList } from '@/components/user/user-connection-list';
+import { ProfileHeader } from '@/components/profile/ProfileHeader';
+import { ProfileInfo } from '@/components/profile/ProfileInfo';
+import { UserConnectionList } from '@/components/user/UserConnectionList';
 import {
     useGetUserFollowersQuery,
     useGetUserFollowingQuery,

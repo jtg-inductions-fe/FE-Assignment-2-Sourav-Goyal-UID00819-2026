@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 
 import type { SearchUser } from '@/types/search';
 
-import { SearchUserCard } from './search-user-card';
+import { SearchUserCard } from './SearchUserCard';
 
 interface SearchUserGridProps {
     users: SearchUser[];

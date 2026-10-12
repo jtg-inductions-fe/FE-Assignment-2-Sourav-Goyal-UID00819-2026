@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
-import App from '@/app';
-import AuthMiddleware from '@/components/common/auth-middleware';
+import App from '@/App';
+import AuthMiddleware from '@/components/common/AuthMiddleware';
 import { store } from '@/store/store';
 import { theme } from '@theme';
 

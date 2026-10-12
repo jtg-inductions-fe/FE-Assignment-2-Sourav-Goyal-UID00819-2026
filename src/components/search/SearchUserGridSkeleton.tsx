@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 
-import { SearchUserCardSkeleton } from './search-user-card-skeleton';
+import { SearchUserCardSkeleton } from './SearchUserCardSkeleton';
 
 interface SearchUserGridSkeletonProps {
     count?: number;

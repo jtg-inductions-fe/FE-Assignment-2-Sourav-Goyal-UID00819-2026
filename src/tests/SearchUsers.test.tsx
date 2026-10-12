@@ -1,29 +1,29 @@
-import { SearchUsers } from '@/components/search/search-users';
+import { SearchUsers } from '@/components/search/SearchUsers';
 import { render, screen } from '@testing-library/react';
 
-vi.mock('@/components/search/search-input', () => ({
+vi.mock('@/components/search/SearchInput', () => ({
     SearchInput: ({ query }: { query: string }) => (
         <div data-testid="search-input">Input: {query}</div>
     ),
 }));
 
-vi.mock('@/components/search/search-user-grid-skeleton', () => ({
+vi.mock('@/components/search/SearchUserGridSkeleton', () => ({
     SearchUserGridSkeleton: () => <div data-testid="skeleton">Loading...</div>,
 }));
 
-vi.mock('@/components/search/search-user-grid', () => ({
+vi.mock('@/components/search/SearchUserGrid', () => ({
     SearchUserGrid: ({ users }: { users: unknown[] }) => (
         <div data-testid="user-grid">Grid with {users.length} users</div>
     ),
 }));
 
-vi.mock('@/components/common/not-found', () => ({
+vi.mock('@/components/common/NotFound', () => ({
     NotFound: ({ title }: { title: string }) => (
         <div data-testid="not-found">{title}</div>
     ),
 }));
 
-vi.mock('@/components/user/user-detail-modal', () => ({
+vi.mock('@/components/user/UserDetailModal', () => ({
     UserDetailModal: ({ open }: { open: boolean }) => (
         <div data-testid="user-modal">
             {open ? 'Modal Open' : 'Modal Closed'}

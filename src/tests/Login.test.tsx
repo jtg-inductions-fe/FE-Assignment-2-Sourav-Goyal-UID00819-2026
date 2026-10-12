@@ -1,4 +1,4 @@
-import Login from '@/pages/login';
+import Login from '@/pages/Login';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 const mockDispatch = vi.fn();
@@ -26,7 +26,7 @@ vi.mock('@/store/slices/user-slice', () => ({
     clearUser: vi.fn(() => ({ type: 'CLEAR_USER' })),
 }));
 
-vi.mock('@/components/login/login-form', () => ({
+vi.mock('@/components/login/LoginForm', () => ({
     LoginForm: ({ onSubmit }: { onSubmit: (data: unknown) => void }) => (
         <button
             data-testid="mock-login-btn"
