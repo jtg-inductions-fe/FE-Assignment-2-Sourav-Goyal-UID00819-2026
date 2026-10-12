@@ -2,12 +2,25 @@ import { Avatar, Box, Link, Paper, Typography } from '@mui/material';
 
 import type { SearchUser } from '@/types/search';
 
+import { FollowButton } from './FollowButton';
+
 type SearchUserCardProps = {
     user: SearchUser;
     onClick?: (username: string) => void;
+    isFollowing?: boolean;
+    showFollowButton?: boolean;
+    isFollowingLoading?: boolean;
+    onFollow?: (username: string) => Promise<void>;
 };
 
-export const SearchUserCard = ({ user, onClick }: SearchUserCardProps) => (
+export const SearchUserCard = ({
+    user,
+    onClick,
+    showFollowButton = false,
+    isFollowing = false,
+    isFollowingLoading = false,
+    onFollow,
+}: SearchUserCardProps) => (
     <Box
         sx={{
             display: 'flex',
@@ -35,6 +48,7 @@ export const SearchUserCard = ({ user, onClick }: SearchUserCardProps) => (
                 px: 4,
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'space-between',
                 borderRadius: 2,
                 minHeight: 64,
                 '&:hover': {
@@ -52,6 +66,15 @@ export const SearchUserCard = ({ user, onClick }: SearchUserCardProps) => (
                     {user.login}
                 </Link>
             </Typography>
+
+            {showFollowButton && onFollow && (
+                <FollowButton
+                    onFollow={onFollow}
+                    username={user.login}
+                    isFollowing={isFollowing}
+                    isFollowingLoading={isFollowingLoading}
+                />
+            )}
         </Paper>
     </Box>
 );
