@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 import { Box } from '@mui/material';
 
-import { Navbar } from '@/components/navbar/navbar';
+import { Navbar } from '@/components/navbar/Navbar';
 
 const Layout = () => (
     <Box>
