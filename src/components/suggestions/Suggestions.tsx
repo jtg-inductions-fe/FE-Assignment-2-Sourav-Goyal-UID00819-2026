@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Alert, Slide, Snackbar } from '@mui/material';
+import { Alert, Slide, Snackbar, Typography } from '@mui/material';
 
 import { UserDetailModal } from '@/components/user/UserDetailModal';
 import { UserGrid } from '@/components/user/UserGrid';
@@ -250,6 +250,16 @@ function Suggestions() {
                     {toast.message}
                 </Alert>
             </Snackbar>
+            <Typography
+                variant="h5"
+                sx={{
+                    mt: 4,
+                    color: 'text.secondary',
+                    fontStyle: 'italic',
+                }}
+            >
+                Here are some suggestions for you to follow
+            </Typography>
             <UserGrid
                 users={displaySuggestedUsers}
                 onUserClick={handleUserClick}
