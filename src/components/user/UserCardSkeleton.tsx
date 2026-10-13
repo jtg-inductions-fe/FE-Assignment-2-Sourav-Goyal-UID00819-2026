@@ -1,6 +1,6 @@
 import { Box, Skeleton } from '@mui/material';
 
-export const SearchUserCardSkeleton = () => (
+export const UserCardSkeleton = () => (
     <Box
         sx={{
             display: 'flex',

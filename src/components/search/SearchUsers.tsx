@@ -12,6 +12,8 @@ import {
 
 import { NotFound } from '@/components/common/NotFound';
 import { UserDetailModal } from '@/components/user/UserDetailModal';
+import { UserGrid } from '@/components/user/UserGrid';
+import { UserGridSkeleton } from '@/components/user/UserGridSkeleton';
 import {
     useFollowUserMutation,
     useIsFollowingListQuery,
@@ -20,8 +22,6 @@ import {
 import { useAppSelector } from '@/store/store';
 
 import { SearchInput } from './SearchInput';
-import { SearchUserGrid } from './SearchUserGrid';
-import { SearchUserGridSkeleton } from './SearchUserGridSkeleton';
 
 const USERS_PER_PAGE = 10;
 const GITHUB_API_MAX_RESULTS = 1000;
@@ -130,7 +130,7 @@ export const SearchUsers = () => {
 
             {isFetching && (
                 <Box sx={{ mt: 4 }}>
-                    <SearchUserGridSkeleton count={USERS_PER_PAGE} />
+                    <UserGridSkeleton count={USERS_PER_PAGE} />
                 </Box>
             )}
 
@@ -138,12 +138,12 @@ export const SearchUsers = () => {
                 <Box sx={{ mt: 4 }}>
                     {data.items.length > 0 ? (
                         <>
-                            <SearchUserGrid
+                            <UserGrid
                                 users={data.items}
                                 onUserClick={handleUserClick}
                                 followMap={followMap}
                                 isFollowLoading={isFollowLoading}
-                                loggedInUsername={user?.login}
+                                loggedInUser={user?.login}
                                 onFollow={handleFollow}
                             />
 
