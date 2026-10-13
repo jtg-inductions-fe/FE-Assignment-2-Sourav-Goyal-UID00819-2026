@@ -30,6 +30,7 @@ export const FollowButton = ({
             setIsMutating(true);
             await onFollow(username);
             setJustFollowed(true);
+        } catch {
         } finally {
             setIsMutating(false);
         }
