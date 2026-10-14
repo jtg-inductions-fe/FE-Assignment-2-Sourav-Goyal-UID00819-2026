@@ -95,17 +95,17 @@ const githubService = api.injectEndpoints({
         >({
             async queryFn(
                 { loggedInUser, username },
-                _api,
+                baseApi,
                 _extraOptions,
                 baseQuery,
             ) {
                 try {
                     const result = await baseQuery({
                         url: `/users/${loggedInUser}/following/${username}`,
-                        signal: _api.signal,
+                        signal: baseApi.signal,
                     });
 
-                    if (_api.signal.aborted) {
+                    if (baseApi.signal.aborted) {
                         return {
                             error: {
                                 status: 'CUSTOM_ERROR',
