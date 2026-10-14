@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useSearchParams } from 'react-router-dom';
 
@@ -12,7 +12,12 @@ import {
 
 import { NotFound } from '@/components/common/NotFound';
 import { UserDetailModal } from '@/components/user/UserDetailModal';
-import { useSearchUsersQuery } from '@/services/github';
+import {
+    useFollowUserMutation,
+    useIsFollowingListQuery,
+    useSearchUsersQuery,
+} from '@/services/github';
+import { useAppSelector } from '@/store/store';
 
 import { SearchInput } from './SearchInput';
 import { SearchUserGrid } from './SearchUserGrid';
@@ -23,12 +28,15 @@ const GITHUB_API_MAX_RESULTS = 1000;
 
 export const SearchUsers = () => {
     const theme = useTheme();
+    const { user } = useAppSelector((state) => state.user);
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [query, setQuery] = useState('');
     const [page, setPage] = useState(1);
+
+    const [followUser] = useFollowUserMutation();
 
     const maxPages = Math.floor(GITHUB_API_MAX_RESULTS / USERS_PER_PAGE);
     const { data, isFetching, isError } = useSearchUsersQuery(
@@ -39,6 +47,21 @@ export const SearchUsers = () => {
         },
         { skip: !query },
     );
+
+    const usernames = useMemo(
+        () => data?.items.map((searched_user) => searched_user.login) || [],
+        [data?.items],
+    );
+
+    const { data: followMap, isLoading: isFollowLoading } =
+        useIsFollowingListQuery(
+            { loggedInUser: user?.login ?? '', usernames },
+            { skip: !user || usernames.length === 0 },
+        );
+
+    const handleFollow = async (targetUsername: string) => {
+        await followUser({ username: targetUsername }).unwrap();
+    };
 
     useEffect(() => {
         const searchQuery = searchParams.get('query');
@@ -118,6 +141,10 @@ export const SearchUsers = () => {
                             <SearchUserGrid
                                 users={data.items}
                                 onUserClick={handleUserClick}
+                                followMap={followMap}
+                                isFollowLoading={isFollowLoading}
+                                loggedInUsername={user?.login}
+                                onFollow={handleFollow}
                             />
 
                             {totalPages > 1 && (
