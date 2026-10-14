@@ -1,6 +1,8 @@
 export type UserDetail = {
     avatar_url: string;
     login: string;
+    id: number;
+    name: string;
     location: string | null;
     followers: number;
     following: number;

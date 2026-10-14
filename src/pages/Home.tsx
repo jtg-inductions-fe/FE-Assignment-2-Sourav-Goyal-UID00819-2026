@@ -1,17 +1,12 @@
-import { Button, Container, TextField } from '@mui/material';
+import { Container } from '@mui/material';
+
+import Suggestions from '@/components/suggestions/Suggestions';
 
 function Home() {
     return (
         <div>
-            <Button sx={{ display: 'block', margin: 2 }}>Click</Button>
-            <TextField placeholder="Hey" label="Test" />
             <Container>
-                <h2>Hero Section</h2>
-                <p>Content goes here...</p>
-            </Container>
-            <Container sx={{ bgcolor: 'grey.100' }}>
-                <h2>Features Section</h2>
-                <p>More content here...</p>
+                <Suggestions />
             </Container>
         </div>
     );
