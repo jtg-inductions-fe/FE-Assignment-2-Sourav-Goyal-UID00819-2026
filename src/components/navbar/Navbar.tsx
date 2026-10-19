@@ -32,7 +32,7 @@ export const Navbar = () => {
     });
 
     return (
-        <AppBar position="static" sx={{ px: 4 }}>
+        <AppBar position="fixed" sx={{ px: 4 }}>
             <Toolbar
                 sx={{
                     justifyContent: { xs: 'space-between', md: 'flex-start' },

@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import { Box, Button, Stack, TextField } from '@mui/material';
+import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 
 export type LoginFormInputs = {
     username: string;
@@ -53,6 +53,7 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
                     fullWidth
                     required
                 />
+                <Typography />
                 <TextField
                     id="github-pat"
                     label="Personal Access Token (PAT)"

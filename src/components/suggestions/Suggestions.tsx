@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Alert, Slide, Snackbar, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import { UserDetailModal } from '@/components/user/UserDetailModal';
 import { UserGrid } from '@/components/user/UserGrid';
@@ -12,6 +12,8 @@ import {
 } from '@/services/github';
 import { useAppSelector } from '@/store/store';
 import { UserDetail } from '@/types/user';
+
+import { toast } from '../common/toast';
 
 const MAX_SUGGESTED_USERS = 10;
 const MAX_PER_PAGE = 100;
@@ -38,11 +40,6 @@ function Suggestions() {
         Record<string, boolean>
     >({});
     const [selectedUser, setSelectedUser] = useState<string | null>(null);
-    const [toast, setToast] = useState<{
-        message: string;
-        severity: 'error' | 'success' | 'info';
-    }>({ message: '', severity: 'info' });
-    const [toastOpen, setToastOpen] = useState(false);
 
     const checkFollowStatus = useCallback(
         (targetUsername: string) => {
@@ -92,17 +89,15 @@ function Suggestions() {
     );
 
     const handleFollow = async (targetUsername: string) => {
-        setToastOpen(false);
         setFollowLoadingMap((prev) => ({ ...prev, [targetUsername]: true }));
         try {
             await followUser({ username: targetUsername }).unwrap();
             setFollowMap((prev) => ({ ...prev, [targetUsername]: true }));
         } catch (error) {
-            setToast({
-                message: `Failed to follow ${targetUsername}. Please try again.`,
-                severity: 'error',
-            });
-            setToastOpen(true);
+            toast(
+                `Failed to follow ${targetUsername}. Please try again.`,
+                'error',
+            );
             throw error;
         } finally {
             setFollowLoadingMap((prev) => ({
@@ -234,26 +229,10 @@ function Suggestions() {
     );
 
     return (
-        <>
-            <Snackbar
-                open={toastOpen}
-                autoHideDuration={2500}
-                onClose={() => setToastOpen(false)}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                TransitionComponent={Slide}
-            >
-                <Alert
-                    onClose={() => setToastOpen(false)}
-                    severity={toast.severity}
-                    sx={{ width: '100%' }}
-                >
-                    {toast.message}
-                </Alert>
-            </Snackbar>
+        <Box>
             <Typography
                 variant="h5"
                 sx={{
-                    mt: 4,
                     color: 'text.secondary',
                     fontStyle: 'italic',
                 }}
@@ -271,13 +250,14 @@ function Suggestions() {
                 onDismiss={handleDismissSuggestion}
                 showRefreshButton
                 onRefresh={handleRefreshSuggestion}
+                shouldColumnWise
             />
             <UserDetailModal
                 open={!!selectedUser}
                 onClose={handleCloseModal}
                 username={selectedUser}
             />
-        </>
+        </Box>
     );
 }
 

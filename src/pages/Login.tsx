@@ -1,20 +1,13 @@
-import { useState } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 
-import {
-    Alert,
-    Box,
-    Container,
-    Slide,
-    Snackbar,
-    Typography,
-} from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 
+import { toast } from '@/components/common/toast';
 import { LoginForm, type LoginFormInputs } from '@/components/login/LoginForm';
 import { useLazyGetAuthenticatedUserQuery } from '@/services/github';
 import { clearUser, setUser } from '@/store/slices/user-slice';
 import { useAppDispatch } from '@/store/store';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 function Login() {
     const dispatch = useAppDispatch();
@@ -22,16 +15,7 @@ function Login() {
 
     const [getAuthUser] = useLazyGetAuthenticatedUserQuery();
 
-    const [toast, setToast] = useState<{
-        message: string;
-        severity: 'error' | 'success' | 'info';
-    }>({ message: '', severity: 'info' });
-
-    const [toastOpen, setToastOpen] = useState(false);
-
     const handleLoginSubmit = async (data: LoginFormInputs) => {
-        setToastOpen(false);
-
         localStorage.setItem('pat_token', data.pat);
 
         try {
@@ -39,30 +23,27 @@ function Login() {
 
             if (response.login.toLowerCase() === data.username.toLowerCase()) {
                 dispatch(setUser(response));
-                setToast({
-                    message: 'Login successful! Redirecting...',
-                    severity: 'success',
-                });
-                setToastOpen(true);
+                toast('Login successful! Redirecting...', 'success');
                 localStorage.setItem('token', data.pat);
                 await navigate('/profile');
             } else {
-                setToast({
-                    message:
-                        'The provided PAT does not match the entered github username.',
-                    severity: 'error',
-                });
-                setToastOpen(true);
+                toast(
+                    'The provided PAT does not match the entered github username.',
+                    'error',
+                );
                 localStorage.removeItem('pat_token');
                 dispatch(clearUser());
             }
-        } catch {
-            setToast({
-                message:
+        } catch (error) {
+            const err = error as FetchBaseQueryError;
+
+            if (err.status === 401) {
+                toast(
                     'Failed to authenticate. Please check your PAT and try again.',
-                severity: 'error',
-            });
-            setToastOpen(true);
+                    'error',
+                );
+            }
+
             localStorage.removeItem('pat_token');
             dispatch(clearUser());
         }
@@ -92,22 +73,6 @@ function Login() {
                     >
                         Please enter your credentials to login
                     </Typography>
-
-                    <Snackbar
-                        open={toastOpen}
-                        autoHideDuration={2500}
-                        onClose={() => setToastOpen(false)}
-                        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                        TransitionComponent={Slide}
-                    >
-                        <Alert
-                            onClose={() => setToastOpen(false)}
-                            severity={toast.severity}
-                            sx={{ width: '100%' }}
-                        >
-                            {toast.message}
-                        </Alert>
-                    </Snackbar>
 
                     <LoginForm onSubmit={handleLoginSubmit} />
                 </Box>

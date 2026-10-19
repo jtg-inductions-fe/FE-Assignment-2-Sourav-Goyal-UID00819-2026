@@ -14,6 +14,7 @@ export interface UserGridProps {
     onDismiss?: (id: number) => void;
     showRefreshButton?: boolean;
     onRefresh?: () => void;
+    shouldColumnWise?: boolean;
 }
 
 export const UserGrid = ({
@@ -28,6 +29,7 @@ export const UserGrid = ({
     onDismiss,
     showRefreshButton,
     onRefresh,
+    shouldColumnWise = false,
 }: UserGridProps) => (
     <Stack>
         <Box
@@ -51,7 +53,10 @@ export const UserGrid = ({
         <Box
             sx={{
                 display: 'grid',
-                gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
+                gridTemplateColumns: {
+                    xs: '1fr',
+                    md: shouldColumnWise ? '1fr' : 'repeat(2, 1fr)',
+                },
                 gap: 4,
                 width: '100%',
             }}
