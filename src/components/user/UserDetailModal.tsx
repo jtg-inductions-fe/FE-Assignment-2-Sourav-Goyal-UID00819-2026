@@ -105,16 +105,27 @@ export const UserDetailModal = ({
                                         {user.login}
                                     </Link>
                                 </Typography>
-                                {user.location && (
+                                {user.name && user.name !== user.login && (
                                     <Typography
                                         variant="body2"
                                         color="text.secondary"
+                                        sx={{ mt: 0.5 }}
                                     >
-                                        {user.location}
+                                        {user.name}
                                     </Typography>
                                 )}
                             </Box>
                         </Box>
+
+                        {user.location && (
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{ mb: 1 }}
+                            >
+                                {user.location}
+                            </Typography>
+                        )}
 
                         {user.bio && (
                             <Typography variant="body1" sx={{ mb: 2 }}>

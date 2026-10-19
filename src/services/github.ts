@@ -31,6 +31,13 @@ const githubService = api.injectEndpoints({
         getAuthenticatedUser: builder.query<UserDetail, void>({
             query: () => '/user',
         }),
+        getSuggestedUsers: builder.query<
+            UserDetail[],
+            { perPage?: number; since?: number }
+        >({
+            query: ({ perPage = 100, since }) =>
+                `/users?per_page=${perPage}&since=${since}`,
+        }),
         followUser: builder.mutation<undefined, { username: string }>({
             query: ({ username }) => ({
                 url: `/user/following/${username}`,
@@ -82,6 +89,44 @@ const githubService = api.injectEndpoints({
             },
             providesTags: ['Following'],
         }),
+        checkUserFollowing: builder.query<
+            boolean,
+            { loggedInUser: string; username: string }
+        >({
+            async queryFn(
+                { loggedInUser, username },
+                baseApi,
+                _extraOptions,
+                baseQuery,
+            ) {
+                try {
+                    const result = await baseQuery({
+                        url: `/users/${loggedInUser}/following/${username}`,
+                        signal: baseApi.signal,
+                    });
+
+                    if (baseApi.signal.aborted) {
+                        return {
+                            error: {
+                                status: 'CUSTOM_ERROR',
+                                error: 'Aborted',
+                            },
+                        };
+                    }
+
+                    const isFollowing = !result.error;
+                    return { data: isFollowing };
+                } catch {
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Unknown',
+                        },
+                    };
+                }
+            },
+            providesTags: ['Following'],
+        }),
     }),
 });
 
@@ -92,6 +137,11 @@ export const {
     useGetUserFollowingQuery,
     useFollowUserMutation,
     useIsFollowingListQuery,
+    useLazyIsFollowingListQuery,
     useGetAuthenticatedUserQuery,
     useLazyGetAuthenticatedUserQuery,
+    useGetSuggestedUsersQuery,
+    useLazyGetSuggestedUsersQuery,
+    useCheckUserFollowingQuery,
+    useLazyCheckUserFollowingQuery,
 } = githubService;
