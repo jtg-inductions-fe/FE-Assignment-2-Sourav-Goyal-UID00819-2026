@@ -38,12 +38,9 @@ export const FollowButton = ({
 
     const hasFollowed = isFollowing || justFollowed;
 
-    return (
-        <Box
-            onClick={(e) => e.stopPropagation()}
-            sx={{ ml: 2, display: 'flex', alignItems: 'center' }}
-        >
-            {isMutating ? (
+    const renderButton = () => {
+        if (isMutating) {
+            return (
                 <Button
                     variant="outlined"
                     size="small"
@@ -52,11 +49,19 @@ export const FollowButton = ({
                 >
                     <CircularProgress size={16} color="inherit" />
                 </Button>
-            ) : hasFollowed ? (
+            );
+        }
+
+        if (hasFollowed) {
+            return (
                 <Typography variant="body2" color="primary">
                     Following
                 </Typography>
-            ) : isFollowingLoading ? (
+            );
+        }
+
+        if (isFollowingLoading) {
+            return (
                 <Button
                     variant="outlined"
                     size="small"
@@ -65,17 +70,28 @@ export const FollowButton = ({
                 >
                     <CircularProgress size={16} color="inherit" />
                 </Button>
-            ) : (
-                <Button
-                    variant="outlined"
-                    size="small"
-                    onClick={(e) => {
-                        void handleFollowClick(e);
-                    }}
-                >
-                    Follow
-                </Button>
-            )}
+            );
+        }
+
+        return (
+            <Button
+                variant="outlined"
+                size="small"
+                onClick={(e) => {
+                    void handleFollowClick(e);
+                }}
+            >
+                Follow
+            </Button>
+        );
+    };
+
+    return (
+        <Box
+            onClick={(e) => e.stopPropagation()}
+            sx={{ ml: 2, display: 'flex', alignItems: 'center' }}
+        >
+            {renderButton()}
         </Box>
     );
 };

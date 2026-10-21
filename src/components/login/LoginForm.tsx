@@ -31,7 +31,7 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
                 <TextField
                     id="github-username"
                     label="GitHub Username"
-                    placeholder="@username"
+                    placeholder="Enter your username here"
                     {...register('username', {
                         required: 'GitHub Username is required',
                         maxLength: {
@@ -57,7 +57,7 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
                 <TextField
                     id="github-pat"
                     label="Personal Access Token (PAT)"
-                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                    placeholder="Paste your GitHub PAT here"
                     type="password"
                     {...register('pat', {
                         required: 'Personal Access Token is required',

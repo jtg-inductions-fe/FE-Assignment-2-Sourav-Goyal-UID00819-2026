@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Box, Typography } from '@mui/material';
 
@@ -19,7 +19,7 @@ const MAX_SUGGESTED_USERS = 10;
 const MAX_PER_PAGE = 100;
 const REFETCH_THRESHOLD = 80;
 
-function Suggestions() {
+const Suggestions = () => {
     const { user } = useAppSelector((state) => state.user);
     const [followUser] = useFollowUserMutation();
     const [checkUserFollowing] = useLazyCheckUserFollowingQuery();
@@ -41,52 +41,49 @@ function Suggestions() {
     >({});
     const [selectedUser, setSelectedUser] = useState<string | null>(null);
 
-    const checkFollowStatus = useCallback(
-        (targetUsername: string) => {
-            const loggedInUsername = user?.login;
-            if (
-                !loggedInUsername ||
-                targetUsername.toLowerCase() === loggedInUsername.toLowerCase()
-            ) {
-                return;
-            }
+    const checkFollowStatus = (targetUsername: string) => {
+        const loggedInUsername = user?.login;
+        if (
+            !loggedInUsername ||
+            targetUsername.toLowerCase() === loggedInUsername.toLowerCase()
+        ) {
+            return;
+        }
 
-            if (inFlightRequestsRef.current[targetUsername]) {
-                inFlightRequestsRef.current[targetUsername].abort();
+        if (inFlightRequestsRef.current[targetUsername]) {
+            inFlightRequestsRef.current[targetUsername].abort();
+            delete inFlightRequestsRef.current[targetUsername];
+        }
+
+        setFollowLoadingMap((prev) => ({
+            ...prev,
+            [targetUsername]: true,
+        }));
+
+        const request = checkUserFollowing({
+            loggedInUser: loggedInUsername,
+            username: targetUsername,
+        });
+
+        inFlightRequestsRef.current[targetUsername] = request;
+
+        request
+            .unwrap()
+            .then((isFollowing) => {
+                setFollowMap((prev) => ({
+                    ...prev,
+                    [targetUsername]: isFollowing,
+                }));
+            })
+            .catch(() => {})
+            .finally(() => {
+                setFollowLoadingMap((prev) => ({
+                    ...prev,
+                    [targetUsername]: false,
+                }));
                 delete inFlightRequestsRef.current[targetUsername];
-            }
-
-            setFollowLoadingMap((prev) => ({
-                ...prev,
-                [targetUsername]: true,
-            }));
-
-            const request = checkUserFollowing({
-                loggedInUser: loggedInUsername,
-                username: targetUsername,
             });
-
-            inFlightRequestsRef.current[targetUsername] = request;
-
-            request
-                .unwrap()
-                .then((isFollowing) => {
-                    setFollowMap((prev) => ({
-                        ...prev,
-                        [targetUsername]: isFollowing,
-                    }));
-                })
-                .catch(() => {})
-                .finally(() => {
-                    setFollowLoadingMap((prev) => ({
-                        ...prev,
-                        [targetUsername]: false,
-                    }));
-                    delete inFlightRequestsRef.current[targetUsername];
-                });
-        },
-        [user?.login, checkUserFollowing],
-    );
+    };
 
     const handleFollow = async (targetUsername: string) => {
         setFollowLoadingMap((prev) => ({ ...prev, [targetUsername]: true }));
@@ -107,29 +104,26 @@ function Suggestions() {
         }
     };
 
-    const fetchSuggestions = useCallback(
-        async (perPage = MAX_PER_PAGE) => {
-            const response = await getSuggestionUsers({
-                since: lastSinceRef.current,
-                perPage,
-            }).unwrap();
-            const shuffledUsers = shuffleArray(response);
-            setSuggestedUsers((prev) => [...prev, ...shuffledUsers]);
+    const fetchSuggestions = async (perPage = MAX_PER_PAGE) => {
+        const response = await getSuggestionUsers({
+            since: lastSinceRef.current,
+            perPage,
+        }).unwrap();
+        const shuffledUsers = shuffleArray(response);
+        setSuggestedUsers((prev) => [...prev, ...shuffledUsers]);
 
-            if (response.length > 0) {
-                lastSinceRef.current = response[response.length - 1]['id'];
+        if (response.length > 0) {
+            lastSinceRef.current = response[response.length - 1]['id'];
+        }
+
+        setDisplaySuggestedUsers((prev) => {
+            if (prev.length === 0 && response.length > 0) {
+                lastDisplayUserIdxRef.current = MAX_SUGGESTED_USERS - 1;
+                return shuffledUsers.slice(0, MAX_SUGGESTED_USERS);
             }
-
-            setDisplaySuggestedUsers((prev) => {
-                if (prev.length === 0 && response.length > 0) {
-                    lastDisplayUserIdxRef.current = MAX_SUGGESTED_USERS - 1;
-                    return shuffledUsers.slice(0, MAX_SUGGESTED_USERS);
-                }
-                return prev;
-            });
-        },
-        [getSuggestionUsers],
-    );
+            return prev;
+        });
+    };
 
     const handleRefreshSuggestion = () => {
         const nextEndIdx = lastDisplayUserIdxRef.current + MAX_SUGGESTED_USERS;
@@ -193,7 +187,7 @@ function Suggestions() {
 
     useEffect(() => {
         void fetchSuggestions();
-    }, [fetchSuggestions]);
+    }, []);
 
     useEffect(() => {
         const currentCount = lastDisplayUserIdxRef.current + 1;
@@ -203,7 +197,7 @@ function Suggestions() {
             currentCount > Math.floor((currentTotal * REFETCH_THRESHOLD) / 100);
 
         if (isAboveThreshold && !!currentTotal) void fetchSuggestions();
-    }, [fetchSuggestions, suggestedUsers.length, displaySuggestedUsers]);
+    }, [suggestedUsers.length, displaySuggestedUsers]);
 
     useEffect(() => {
         if (!user?.login || displaySuggestedUsers.length === 0) return;
@@ -216,7 +210,7 @@ function Suggestions() {
                 checkFollowStatus(suggestedUser.login);
             }
         });
-    }, [user?.login, displaySuggestedUsers, checkFollowStatus, followMap]);
+    }, [user?.login, displaySuggestedUsers, followMap]);
 
     useEffect(
         () => () => {
@@ -259,6 +253,6 @@ function Suggestions() {
             />
         </Box>
     );
-}
+};
 
 export default Suggestions;

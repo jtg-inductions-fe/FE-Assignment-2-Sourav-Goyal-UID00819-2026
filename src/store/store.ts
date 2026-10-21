@@ -1,6 +1,6 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
-import api from '@/lib/api';
+import api from '@/services/api';
 import { configureStore } from '@reduxjs/toolkit';
 
 import { errorMiddleware } from './middlewares/errorMiddleware';

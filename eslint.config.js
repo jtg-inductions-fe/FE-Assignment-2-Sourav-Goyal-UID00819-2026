@@ -84,6 +84,7 @@ export default tseslint.config(
                 },
             ],
             'arrow-body-style': ['error', 'as-needed'],
+            'react-hooks/exhaustive-deps': 'warn',
         },
         /* Specify React version for eslint-plugin-react */
         settings: {

@@ -68,7 +68,15 @@ export const UserDetailModal = ({
             maxWidth="sm"
             fullWidth
         >
-            <DialogTitle>User Profile</DialogTitle>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <DialogTitle>User Profile</DialogTitle>
+
+                <DialogActions>
+                    <Button onClick={onClose} color="inherit">
+                        Close
+                    </Button>
+                </DialogActions>
+            </Box>
             <DialogContent dividers>
                 {isUserLoading ? (
                     <Box
@@ -186,11 +194,6 @@ export const UserDetailModal = ({
                     </Typography>
                 )}
             </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose} color="inherit">
-                    Close
-                </Button>
-            </DialogActions>
         </Dialog>
     );
 };

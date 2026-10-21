@@ -42,6 +42,7 @@ export const UserConnectionList = ({
                                     href={conn.html_url}
                                     target="_blank"
                                     underline="hover"
+                                    rel="noopener noreferrer"
                                 >
                                     {conn.login}
                                 </Link>
