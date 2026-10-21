@@ -104,7 +104,7 @@ export const SearchUsers = () => {
                 page: String(totalPages),
             });
         }
-    }, [data, page, query, totalPages, setSearchParams]);
+    }, [data, page, query, totalPages]);
 
     const [selectedUser, setSelectedUser] = useState<string | null>(null);
 

@@ -2,27 +2,19 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import {
     AppBar,
-    Button,
     Link as MuiLink,
     Stack,
     Toolbar,
     Typography,
 } from '@mui/material';
 
-import { clearUser } from '@/store/slices/user-slice';
-import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useAppSelector } from '@/store/store';
 
+import { Logout } from './Logout';
 import { navLinks } from './navbar.constants';
 
 export const Navbar = () => {
-    const dispatch = useAppDispatch();
     const user = useAppSelector((state) => state.user.user);
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('pat_token');
-        dispatch(clearUser());
-    };
 
     const visibleLinks = navLinks.filter((link) => {
         if (link.visibility === 'all') return true;
@@ -32,7 +24,7 @@ export const Navbar = () => {
     });
 
     return (
-        <AppBar position="static" sx={{ px: 4 }}>
+        <AppBar position="fixed" sx={{ px: 4 }}>
             <Toolbar
                 sx={{
                     justifyContent: { xs: 'space-between', md: 'flex-start' },
@@ -62,15 +54,7 @@ export const Navbar = () => {
                         </MuiLink>
                     ))}
                 </Stack>
-                {user && (
-                    <Button
-                        color="success"
-                        onClick={handleLogout}
-                        sx={{ ml: 'auto' }}
-                    >
-                        Logout
-                    </Button>
-                )}
+                {user && <Logout user={user} />}
             </Toolbar>
         </AppBar>
     );

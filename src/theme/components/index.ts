@@ -61,17 +61,22 @@ export const components: Components<Theme> = {
     },
     MuiContainer: {
         defaultProps: {
-            maxWidth: 'lg',
+            maxWidth: 'xl',
         },
         styleOverrides: {
             root: ({ theme }) => ({
                 paddingTop: theme.spacing(4),
                 paddingBottom: theme.spacing(4),
+                paddingLeft: theme.spacing(6),
+                paddingRight: theme.spacing(6),
                 gap: theme.spacing(2),
                 [theme.breakpoints.up('md')]: {
                     paddingTop: theme.spacing(6),
                     paddingBottom: theme.spacing(6),
+                    paddingLeft: theme.spacing(6),
+                    paddingRight: theme.spacing(6),
                 },
+                overflow: 'hidden',
             }),
         },
     },

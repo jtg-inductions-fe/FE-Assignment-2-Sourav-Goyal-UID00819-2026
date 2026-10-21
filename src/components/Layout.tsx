@@ -5,9 +5,12 @@ import { Box } from '@mui/material';
 import { Navbar } from '@/components/navbar/Navbar';
 
 const Layout = () => (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
         <Navbar />
-        <Box component={'main'}>
+        <Box
+            component="main"
+            sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}
+        >
             <Outlet />
         </Box>
     </Box>

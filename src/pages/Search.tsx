@@ -6,7 +6,7 @@ function Search() {
     return (
         <Container>
             <Typography variant="h1" gutterBottom>
-                Search Page
+                Search Users
             </Typography>
 
             <SearchUsers />

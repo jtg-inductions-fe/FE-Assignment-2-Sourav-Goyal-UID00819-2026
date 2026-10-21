@@ -1,8 +1,9 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
-import api from '@/lib/api';
+import api from '@/services/api';
 import { configureStore } from '@reduxjs/toolkit';
 
+import { errorMiddleware } from './middlewares/errorMiddleware';
 import { userReducer } from './slices/user-slice';
 
 export const store = configureStore({
@@ -11,7 +12,7 @@ export const store = configureStore({
         user: userReducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(api.middleware),
+        getDefaultMiddleware().concat(api.middleware, errorMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
