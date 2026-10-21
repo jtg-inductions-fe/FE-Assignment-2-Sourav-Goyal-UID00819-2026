@@ -1,4 +1,4 @@
-import { FollowButton } from '@/components/user/FollowButton';
+import { FollowButton } from '@/components/user';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 describe('FollowButton Component', () => {
