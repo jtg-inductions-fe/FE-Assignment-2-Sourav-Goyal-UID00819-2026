@@ -1,4 +1,4 @@
-import { SearchUsers } from '@/components/search/SearchUsers';
+import { SearchUsers } from '@/components/search';
 import type { RootState } from '@/store/store';
 import { render, screen } from '@testing-library/react';
 

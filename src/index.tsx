@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material';
 
 import App from '@/App';
-import AuthMiddleware from '@/components/common/AuthMiddleware';
+import { AuthMiddleware } from '@/components/common/AuthMiddleware';
 import { ToastProvider } from '@/components/common/ToastProvider';
 import { store } from '@/store/store';
 import { COLORS } from '@constant';

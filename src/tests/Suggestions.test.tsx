@@ -1,4 +1,4 @@
-import Suggestions from '@/components/suggestions/Suggestions';
+import { Suggestions } from '@/components/suggestions';
 import type { RootState } from '@/store/store';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 

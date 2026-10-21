@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
 
 import { toast } from '@/components/common/toast';
-import { LoginForm, type LoginFormInputs } from '@/components/login/LoginForm';
+import { LoginForm, type LoginFormInputs } from '@/components/login';
 import { useLazyGetAuthenticatedUserQuery } from '@/services/github';
 import { clearUser, setUser } from '@/store/slices/user-slice';
 import { useAppDispatch } from '@/store/store';
@@ -61,19 +61,6 @@ function Login() {
                         margin: '0 auto',
                     }}
                 >
-                    <Typography
-                        variant="h5"
-                        fontWeight="bold"
-                        sx={{
-                            textAlign: 'center',
-                            color: 'text.secondary',
-                            mb: 4,
-                            textTransform: 'capitalize',
-                        }}
-                    >
-                        Please enter your credentials to login
-                    </Typography>
-
                     <LoginForm onSubmit={handleLoginSubmit} />
                 </Box>
             </Container>

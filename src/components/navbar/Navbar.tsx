@@ -1,17 +1,12 @@
 import { Link as RouterLink } from 'react-router-dom';
 
-import {
-    AppBar,
-    Link as MuiLink,
-    Stack,
-    Toolbar,
-    Typography,
-} from '@mui/material';
+import { Link as MuiLink, Stack } from '@mui/material';
 
+import { Logout } from '@/components/logout';
 import { useAppSelector } from '@/store/store';
 
-import { Logout } from './Logout';
 import { navLinks } from './navbar.constants';
+import * as S from './Navbar.styles';
 
 export const Navbar = () => {
     const user = useAppSelector((state) => state.user.user);
@@ -24,23 +19,11 @@ export const Navbar = () => {
     });
 
     return (
-        <AppBar position="fixed" sx={{ px: 4 }}>
-            <Toolbar
-                sx={{
-                    justifyContent: { xs: 'space-between', md: 'flex-start' },
-                    gap: 9,
-                }}
-            >
-                <Typography
-                    variant="h6"
-                    component={RouterLink}
-                    to="/"
-                    sx={{
-                        color: 'inherit',
-                    }}
-                >
+        <S.StyledAppBar position="fixed">
+            <S.NavToolbar>
+                <S.BrandTitle variant="h6" component={RouterLink} to="/">
                     Github Services
-                </Typography>
+                </S.BrandTitle>
                 <Stack direction="row" gap={5}>
                     {visibleLinks.map((link) => (
                         <MuiLink
@@ -55,7 +38,7 @@ export const Navbar = () => {
                     ))}
                 </Stack>
                 {user && <Logout user={user} />}
-            </Toolbar>
-        </AppBar>
+            </S.NavToolbar>
+        </S.StyledAppBar>
     );
 };
