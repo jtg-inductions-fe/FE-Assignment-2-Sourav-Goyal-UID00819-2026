@@ -1,6 +1,6 @@
 import { Container, Typography } from '@mui/material';
 
-import { SearchUsers } from '@/components/search/search-users';
+import { SearchUsers } from '@/components/search/SearchUsers';
 
 function Search() {
     return (

@@ -11,7 +11,7 @@ import {
     Typography,
 } from '@mui/material';
 
-import { LoginForm, type LoginFormInputs } from '@/components/login/login-form';
+import { LoginForm, type LoginFormInputs } from '@/components/login/LoginForm';
 import { useLazyGetAuthenticatedUserQuery } from '@/services/github';
 import { clearUser, setUser } from '@/store/slices/user-slice';
 import { useAppDispatch } from '@/store/store';
@@ -44,6 +44,7 @@ function Login() {
                     severity: 'success',
                 });
                 setToastOpen(true);
+                localStorage.setItem('token', data.pat);
                 await navigate('/profile');
             } else {
                 setToast({

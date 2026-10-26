@@ -10,13 +10,13 @@ import {
     useTheme,
 } from '@mui/material';
 
-import { NotFound } from '@/components/common/not-found';
-import { UserDetailModal } from '@/components/user/user-detail-modal';
+import { NotFound } from '@/components/common/NotFound';
+import { UserDetailModal } from '@/components/user/UserDetailModal';
 import { useSearchUsersQuery } from '@/services/github';
 
-import { SearchInput } from './search-input';
-import { SearchUserGrid } from './search-user-grid';
-import { SearchUserGridSkeleton } from './search-user-grid-skeleton';
+import { SearchInput } from './SearchInput';
+import { SearchUserGrid } from './SearchUserGrid';
+import { SearchUserGridSkeleton } from './SearchUserGridSkeleton';
 
 const USERS_PER_PAGE = 10;
 const GITHUB_API_MAX_RESULTS = 1000;

@@ -39,5 +39,6 @@ export const {
     useSearchUsersQuery,
     useGetUserFollowersQuery,
     useGetUserFollowingQuery,
+    useGetAuthenticatedUserQuery,
     useLazyGetAuthenticatedUserQuery,
 } = githubService;
