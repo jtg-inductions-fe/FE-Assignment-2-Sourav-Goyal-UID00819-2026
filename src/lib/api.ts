@@ -5,10 +5,12 @@ const api = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: import.meta.env.VITE_API_BASE_URL,
         prepareHeaders: (headers) => {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('pat_token');
             if (token) {
                 headers.set('authorization', `Bearer ${token}`);
             }
+
+            headers.set('Accept', 'application/vnd.github+json');
             return headers;
         },
     }),

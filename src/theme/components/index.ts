@@ -75,4 +75,11 @@ export const components: Components<Theme> = {
             }),
         },
     },
+    MuiAlert: {
+        styleOverrides: {
+            root: {
+                borderRadius: 12,
+            },
+        },
+    },
 };
