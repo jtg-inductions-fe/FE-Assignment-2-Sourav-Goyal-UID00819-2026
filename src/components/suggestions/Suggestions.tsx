@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
-import { UserDetailModal } from '@/components/user/UserDetailModal';
-import { UserGrid } from '@/components/user/UserGrid';
+import { toast } from '@/components/common/toast';
+import { UserDetailModal } from '@/components/user';
+import { UserGrid } from '@/components/user';
 import { shuffleArray } from '@/lib/utils';
 import {
     useFollowUserMutation,
@@ -13,13 +14,13 @@ import {
 import { useAppSelector } from '@/store/store';
 import { UserDetail } from '@/types/user';
 
-import { toast } from '../common/toast';
+import * as S from './Suggestions.styles';
 
 const MAX_SUGGESTED_USERS = 10;
 const MAX_PER_PAGE = 100;
 const REFETCH_THRESHOLD = 80;
 
-const Suggestions = () => {
+export const Suggestions = () => {
     const { user } = useAppSelector((state) => state.user);
     const [followUser] = useFollowUserMutation();
     const [checkUserFollowing] = useLazyCheckUserFollowingQuery();
@@ -224,15 +225,9 @@ const Suggestions = () => {
 
     return (
         <Box>
-            <Typography
-                variant="h5"
-                sx={{
-                    color: 'text.secondary',
-                    fontStyle: 'italic',
-                }}
-            >
+            <S.SuggestionsTitle variant="h5">
                 Here are some suggestions for you to follow
-            </Typography>
+            </S.SuggestionsTitle>
             <UserGrid
                 users={displaySuggestedUsers}
                 onUserClick={handleUserClick}
@@ -254,5 +249,3 @@ const Suggestions = () => {
         </Box>
     );
 };
-
-export default Suggestions;

@@ -1,7 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
 
-import PrivateRoute from '@/components/common/PrivateRoute';
-import PublicRoute from '@/components/common/PublicRoute';
+import { PrivateRoute } from '@/components/common/PrivateRoute';
+import { PublicRoute } from '@/components/common/PublicRoute';
 import Layout from '@/components/Layout';
 import Error from '@/pages/Error';
 import Home from '@/pages/Home';

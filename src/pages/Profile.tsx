@@ -1,9 +1,9 @@
 import { Box, Container, Divider, Paper, Typography } from '@mui/material';
 
-import { ProfileHeader } from '@/components/profile/ProfileHeader';
-import { ProfileInfo } from '@/components/profile/ProfileInfo';
-import Suggestions from '@/components/suggestions/Suggestions';
-import { UserConnectionList } from '@/components/user/UserConnectionList';
+import { ProfileHeader } from '@/components/profile';
+import { ProfileInfo } from '@/components/profile';
+import { Suggestions } from '@/components/suggestions';
+import { UserConnectionList } from '@/components/user';
 import {
     useGetUserFollowersQuery,
     useGetUserFollowingQuery,
