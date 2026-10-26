@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import { Box, Button, Stack, TextField } from '@mui/material';
+import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 
 export type LoginFormInputs = {
     username: string;
@@ -31,7 +31,7 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
                 <TextField
                     id="github-username"
                     label="GitHub Username"
-                    placeholder="@username"
+                    placeholder="Enter your username here"
                     {...register('username', {
                         required: 'GitHub Username is required',
                         maxLength: {
@@ -53,10 +53,11 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
                     fullWidth
                     required
                 />
+                <Typography />
                 <TextField
                     id="github-pat"
                     label="Personal Access Token (PAT)"
-                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                    placeholder="Paste your GitHub PAT here"
                     type="password"
                     {...register('pat', {
                         required: 'Personal Access Token is required',

@@ -2,6 +2,7 @@ import { Box, Container, Divider, Paper, Typography } from '@mui/material';
 
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { ProfileInfo } from '@/components/profile/ProfileInfo';
+import Suggestions from '@/components/suggestions/Suggestions';
 import { UserConnectionList } from '@/components/user/UserConnectionList';
 import {
     useGetUserFollowersQuery,
@@ -9,7 +10,7 @@ import {
 } from '@/services/github';
 import { useAppSelector } from '@/store/store';
 
-const MAX_CONNECTIONS = 10;
+const MAX_CONNECTIONS = 9;
 
 function Profile() {
     const user = useAppSelector((state) => state.user.user);
@@ -45,45 +46,58 @@ function Profile() {
     }
 
     return (
-        <Container maxWidth="md" sx={{ py: 4 }}>
+        <Container sx={{ py: 4 }}>
             <Typography variant="h1" gutterBottom fontWeight="bold">
                 My Profile
             </Typography>
-            <Paper
+            <Box
                 sx={{
-                    p: { xs: 2, md: 4 },
-                    borderRadius: 2,
-                    boxShadow: 1,
+                    display: 'grid',
+                    gridTemplateColumns: {
+                        xs: '1fr',
+                        lg: '3.5fr 1.5fr',
+                    },
+                    gap: 8,
+                    minWidth: '100%',
                 }}
             >
-                <ProfileHeader user={user} />
-                <ProfileInfo user={user} />
-
-                <Divider sx={{ my: 4 }} />
-
-                <Box
+                <Paper
                     sx={{
-                        display: 'grid',
-                        gridTemplateColumns: {
-                            xs: '1fr',
-                            md: 'repeat(2, 1fr)',
-                        },
-                        gap: 4,
+                        p: { xs: 2, md: 4 },
+                        borderRadius: 2,
+                        boxShadow: 1,
                     }}
                 >
-                    <UserConnectionList
-                        title="Followers"
-                        list={followers}
-                        isLoading={isFollowersLoading}
-                    />
+                    <ProfileHeader user={user} />
+                    <ProfileInfo user={user} />
 
-                    <UserConnectionList
-                        title="Following"
-                        list={following}
-                        isLoading={isFollowingLoading}
-                    />
-                </Box>
-            </Paper>
+                    <Divider sx={{ my: 4 }} />
+
+                    <Box
+                        sx={{
+                            display: 'grid',
+                            gridTemplateColumns: {
+                                xs: '1fr',
+                                md: 'repeat(2, 1fr)',
+                            },
+                            gap: 4,
+                        }}
+                    >
+                        <UserConnectionList
+                            title="Followers"
+                            list={followers}
+                            isLoading={isFollowersLoading}
+                        />
+
+                        <UserConnectionList
+                            title="Following"
+                            list={following}
+                            isLoading={isFollowingLoading}
+                        />
+                    </Box>
+                </Paper>
+                <Suggestions />
+            </Box>
         </Container>
     );
 }

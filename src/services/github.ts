@@ -1,4 +1,5 @@
-import api from '@/lib/api';
+import { API_ROUTES } from '@/constants/apiRoutes';
+import api from '@/services/api';
 import type { SearchResponse } from '@/types/search';
 import type { UserConnection, UserDetail } from '@/types/user';
 
@@ -8,39 +9,56 @@ const githubService = api.injectEndpoints({
             SearchResponse,
             { searchQuery: string; page: number; perPage: number }
         >({
-            query: ({ searchQuery, page, perPage }) =>
-                `/search/users?q=${searchQuery}&page=${page}&per_page=${perPage}`,
+            query: ({ searchQuery, page, perPage }) => ({
+                url: API_ROUTES.SEARCH_USERS,
+                params: { q: searchQuery, page, per_page: perPage },
+            }),
         }),
         getUser: builder.query<UserDetail, string>({
-            query: (username) => `/users/${username}`,
+            query: (username) => API_ROUTES.userByUsername(username),
         }),
         getUserFollowers: builder.query<
             UserConnection[],
             { username: string; page: number; perPage: number }
         >({
-            query: ({ username, page, perPage }) =>
-                `/users/${username}/followers?page=${page}&per_page=${perPage}`,
+            query: ({ username, page, perPage }) => ({
+                url: API_ROUTES.userFollowers(username),
+                params: {
+                    page,
+                    per_page: perPage,
+                },
+            }),
         }),
         getUserFollowing: builder.query<
             UserConnection[],
             { username: string; page: number; perPage: number }
         >({
-            query: ({ username, page, perPage }) =>
-                `/users/${username}/following?page=${page}&per_page=${perPage}`,
+            query: ({ username, page, perPage }) => ({
+                url: API_ROUTES.userFollowing(username),
+                params: {
+                    page,
+                    per_page: perPage,
+                },
+            }),
         }),
         getAuthenticatedUser: builder.query<UserDetail, void>({
-            query: () => '/user',
+            query: () => API_ROUTES.USER,
         }),
         getSuggestedUsers: builder.query<
             UserDetail[],
             { perPage?: number; since?: number }
         >({
-            query: ({ perPage = 100, since }) =>
-                `/users?per_page=${perPage}&since=${since}`,
+            query: ({ perPage = 100, since }) => ({
+                url: API_ROUTES.USERS,
+                params: {
+                    per_page: perPage,
+                    ...(since !== undefined ? { since } : {}),
+                },
+            }),
         }),
         followUser: builder.mutation<undefined, { username: string }>({
             query: ({ username }) => ({
-                url: `/user/following/${username}`,
+                url: API_ROUTES.followUser(username),
                 method: 'PUT',
                 body: undefined,
             }),
@@ -59,7 +77,7 @@ const githubService = api.injectEndpoints({
                 try {
                     const promises = usernames.map(async (username) => {
                         const result = await baseQuery(
-                            `/users/${loggedInUser}/following/${username}`,
+                            API_ROUTES.checkFollowing(loggedInUser, username),
                         );
 
                         const isFollowing = !result.error;
@@ -101,7 +119,7 @@ const githubService = api.injectEndpoints({
             ) {
                 try {
                     const result = await baseQuery({
-                        url: `/users/${loggedInUser}/following/${username}`,
+                        url: API_ROUTES.checkFollowing(loggedInUser, username),
                         signal: baseApi.signal,
                     });
 

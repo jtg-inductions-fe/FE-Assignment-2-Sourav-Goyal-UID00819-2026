@@ -28,7 +28,7 @@ const AuthMiddleware = ({ children }: AuthMiddlewareProps) => {
             localStorage.removeItem('pat_token');
             dispatch(clearUser());
         }
-    }, [user, isError, dispatch]);
+    }, [user, isError]);
 
     if (isLoading) {
         return (
