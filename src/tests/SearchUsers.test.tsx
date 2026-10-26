@@ -1,4 +1,5 @@
 import { SearchUsers } from '@/components/search/SearchUsers';
+import type { RootState } from '@/store/store';
 import { render, screen } from '@testing-library/react';
 
 vi.mock('@/components/search/SearchInput', () => ({
@@ -36,9 +37,24 @@ vi.mock('react-router-dom', () => ({
     useSearchParams: () => [new URLSearchParams(), mockSetSearchParams],
 }));
 
+vi.mock('@/store/store', () => ({
+    useAppSelector: vi.fn((selector: (state: RootState) => unknown) =>
+        selector({
+            user: {
+                user: null,
+            },
+        } as RootState),
+    ),
+}));
+
 const mockUseSearchUsersQuery = vi.fn();
 vi.mock('@/services/github', () => ({
     useSearchUsersQuery: (): unknown => mockUseSearchUsersQuery(),
+    useFollowUserMutation: () => [vi.fn()],
+    useIsFollowingListQuery: () => ({
+        data: {},
+        isLoading: false,
+    }),
 }));
 
 describe('SearchUsers', () => {
