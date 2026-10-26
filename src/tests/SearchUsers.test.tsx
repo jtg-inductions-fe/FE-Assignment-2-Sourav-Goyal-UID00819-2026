@@ -8,12 +8,12 @@ vi.mock('@/components/search/SearchInput', () => ({
     ),
 }));
 
-vi.mock('@/components/search/SearchUserGridSkeleton', () => ({
-    SearchUserGridSkeleton: () => <div data-testid="skeleton">Loading...</div>,
+vi.mock('@/components/user/UserGridSkeleton', () => ({
+    UserGridSkeleton: () => <div data-testid="skeleton">Loading...</div>,
 }));
 
-vi.mock('@/components/search/SearchUserGrid', () => ({
-    SearchUserGrid: ({ users }: { users: unknown[] }) => (
+vi.mock('@/components/user/UserGrid', () => ({
+    UserGrid: ({ users }: { users: unknown[] }) => (
         <div data-testid="user-grid">Grid with {users.length} users</div>
     ),
 }));

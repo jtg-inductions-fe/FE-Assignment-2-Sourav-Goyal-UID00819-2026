@@ -1,4 +1,4 @@
-import { FollowButton } from '@/components/search/FollowButton';
+import { FollowButton } from '@/components/user/FollowButton';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 describe('FollowButton Component', () => {
@@ -80,7 +80,7 @@ describe('FollowButton Component', () => {
         ).not.toBeInTheDocument();
     });
 
-    it('displays error toast when follow action fails', async () => {
+    it('keeps Follow button visible when follow action fails', async () => {
         const mockOnFollow = vi
             .fn()
             .mockRejectedValue(new Error('Network error'));
@@ -100,19 +100,12 @@ describe('FollowButton Component', () => {
         // :-: Checking that onFollow function was either called or not :-:
         expect(mockOnFollow).toHaveBeenCalledWith('testuser');
 
-        // :-: Checking for the toast notification on failure :-:
+        // :-: Checking that Follow button remains visible and 'Following' is not shown :-:
         await waitFor(() => {
             expect(
-                screen.getByText(
-                    'Failed to follow testuser. Please try again.',
-                ),
+                screen.getByRole('button', { name: /Follow/i }),
             ).toBeInTheDocument();
         });
-
-        // :-: Checking that Follow button remains visible and 'Following' is not shown :-:
-        expect(
-            screen.getByRole('button', { name: /Follow/i }),
-        ).toBeInTheDocument();
         expect(screen.queryByText('Following')).not.toBeInTheDocument();
     });
 });

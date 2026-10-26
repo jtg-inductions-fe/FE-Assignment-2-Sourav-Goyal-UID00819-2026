@@ -1,14 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import {
-    Alert,
-    Box,
-    Button,
-    CircularProgress,
-    Slide,
-    Snackbar,
-    Typography,
-} from '@mui/material';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
 
 export interface FollowButtonProps {
     username: string;
@@ -26,13 +18,6 @@ export const FollowButton = ({
     const [isMutating, setIsMutating] = useState(false);
     const [justFollowed, setJustFollowed] = useState(false);
 
-    const [toast, setToast] = useState<{
-        message: string;
-        severity: 'error' | 'success' | 'info';
-    }>({ message: '', severity: 'info' });
-
-    const [toastOpen, setToastOpen] = useState(false);
-
     useEffect(() => {
         setJustFollowed(false);
     }, [username]);
@@ -41,18 +26,11 @@ export const FollowButton = ({
         e.stopPropagation();
         if (isMutating || isFollowing || justFollowed) return;
 
-        setToastOpen(false);
-
         try {
             setIsMutating(true);
             await onFollow(username);
             setJustFollowed(true);
         } catch {
-            setToast({
-                message: `Failed to follow ${username}. Please try again.`,
-                severity: 'error',
-            });
-            setToastOpen(true);
         } finally {
             setIsMutating(false);
         }
@@ -65,22 +43,6 @@ export const FollowButton = ({
             onClick={(e) => e.stopPropagation()}
             sx={{ ml: 2, display: 'flex', alignItems: 'center' }}
         >
-            <Snackbar
-                open={toastOpen}
-                autoHideDuration={2500}
-                onClose={() => setToastOpen(false)}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                TransitionComponent={Slide}
-            >
-                <Alert
-                    onClose={() => setToastOpen(false)}
-                    severity={toast.severity}
-                    sx={{ width: '100%' }}
-                >
-                    {toast.message}
-                </Alert>
-            </Snackbar>
-
             {isMutating ? (
                 <Button
                     variant="outlined"

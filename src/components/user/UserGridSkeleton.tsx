@@ -1,14 +1,12 @@
 import { Box } from '@mui/material';
 
-import { SearchUserCardSkeleton } from './SearchUserCardSkeleton';
+import { UserCardSkeleton } from './UserCardSkeleton';
 
-interface SearchUserGridSkeletonProps {
+export interface UserGridSkeletonProps {
     count?: number;
 }
 
-export const SearchUserGridSkeleton = ({
-    count = 6,
-}: SearchUserGridSkeletonProps) => (
+export const UserGridSkeleton = ({ count = 6 }: UserGridSkeletonProps) => (
     <Box
         sx={{
             display: 'grid',
@@ -18,7 +16,7 @@ export const SearchUserGridSkeleton = ({
         }}
     >
         {Array.from({ length: count }).map((_, i) => (
-            <SearchUserCardSkeleton key={i} />
+            <UserCardSkeleton key={i} />
         ))}
     </Box>
 );
